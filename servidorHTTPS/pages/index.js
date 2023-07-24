@@ -2,27 +2,53 @@ const http = require('http')
 const url = require('url')
 const fs = require('fs')
 
-http.createServer((request,response) => {
 
-    let path = url.parse(request.url).pathname
+function handleFile(req,res, callback) {
 
-    if (path == "" || path == "/" ) {
-        path= "/index.html"
-    }
-    
+    let path = url.parse(req.url).pathname  
+
     let fileName = "." + path
 
 
     fs.readFile(fileName, (err,data) => {
         if (err) {
-            response.writeHead(404,{"Content-Type": "text/html;charset=utf-8"})
-            response.end("<h1>Página Não Encontrada</h1>")
+            if (callback) {
+            if (!callback(req,res)) {
+                res.writeHead(404,{"Content-Type": "text/html;charset=utf-8"})
+                res.end("<h1>Página Não Encontrada</h1>") 
+            }
+        }
         } else{
-            response.writeHead(200,{"Content-Type": "text/html"})
-            response.write(data)
-            response.end()
+            res.writeHead(200,{"Content-Type": "text/html"})
+            res.write(data)
+            res.end()
         }
     })
+}
+
+    function handleRequest(req,res) {
+        let path = url.parse(req.url).pathname  
+
+        let method = req.method
+        console.log(method);
+
+        if (path == "/teste") {
+            res.end('Teste')
+            return true
+        }
+        return false
+    }
+
+http.createServer((request,response) => {
+
+    handleFile(request,response,handleRequest)
+
+    /* if (path == "" || path == "/" ) {
+        path= "/index.html"
+    }*/
+    
+    handleFile(request,response) 
+    
 
 
 }).listen(3000, (err) => {

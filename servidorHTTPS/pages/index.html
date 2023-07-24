@@ -3,9 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Teste</title>
 </head>
 <body>
-    <h1>Home</h1>
+    <buttun onclick="get()">Get</buttun>
+    <buttun onclick="post()">Post</buttun>
+    <buttun onclick="put()">Put</buttun>
+    <buttun onclick="del()">Delete</buttun>    
+
+    <script>
+
+        const url = "http://localhost:3000/teste"
+
+        function get() {
+            fetch (url ,{
+                method: 'get'
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+
+        function post() {
+            fetch (url ,{
+                method: 'post'
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+
+        function put() {
+            fetch (url, {
+                method: 'put'
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+
+        function del() {
+            fetch (url ,{
+                method: 'delete'
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            })
+        }
+    </script>
 </body>
 </html>
